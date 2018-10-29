@@ -61,6 +61,18 @@ def showScore(choice = 1):
         scoreRect.midtop = (360, 120)
     playSurface.blit(scoreSurface, scoreRect)
 
+# Validation of direction
+def validateDirection(changeto, direction):
+    if changeto == 'RIGHT' and not direction == 'LEFT':
+        direction = 'RIGHT'
+    if changeto == 'LEFT' and not direction == 'RIGHT':
+        direction = 'LEFT'
+    if changeto == 'UP' and not direction == 'DOWN':
+        direction = 'UP'
+    if changeto == 'DOWN' and not direction == 'UP':
+        direction = 'DOWN'
+    return direction
+
 # Main Logic of the Game
 while True:
     for event in pygame.event.get():
@@ -79,16 +91,11 @@ while True:
             if event.key == pygame.K_ESCAPE:
                 # post() is used to create an event
                 pygame.event.post(pygame.event.Event(pygame.QUIT))
-    # Validation of direction
-    if changeto == 'RIGHT' and not direction == 'LEFT':
-        direction = 'RIGHT'
-    if changeto == 'LEFT' and not direction == 'RIGHT':
-        direction = 'LEFT'
-    if changeto == 'UP' and not direction == 'DOWN':
-        direction = 'UP'
-    if changeto == 'DOWN' and not direction == 'UP':
-        direction = 'DOWN'
+
+    direction = validateDirection(changeto, direction)
     
+    #test commit
+
     # Changing values of x and y co-ordinate
     if direction == 'RIGHT':
         snakePosition[0] += 10
