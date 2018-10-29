@@ -93,8 +93,6 @@ while True:
                 pygame.event.post(pygame.event.Event(pygame.QUIT))
 
     direction = validateDirection(changeto, direction)
-    
-    #test commit
 
     # Changing values of x and y co-ordinate
     if direction == 'RIGHT':
