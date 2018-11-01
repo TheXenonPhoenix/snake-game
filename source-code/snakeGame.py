@@ -64,6 +64,7 @@ def gameIntro():
         gameOverRect.midtop = (width/2, 15)
         playSurface.blit(gameOverSurface, gameOverRect)
 
+
         mouse = pygame.mouse.get_pos()
 
         #play button
@@ -72,6 +73,11 @@ def gameIntro():
         else:
             pygame.draw.rect(playSurface, green, (width/4,height/2,100,50))
         
+        myFont = pygame.font.SysFont('monaco', width/20)
+        startText = myFont.render('Go!', True, black)
+        startRect = startText.get_rect()
+        startRect.midtop = ( (width/4+(50)), (height/2+(25)) )
+        playSurface.blit(startText, startRect)
 
         #quit button
         if width*2/3+100 > mouse[0] > width*2/3 and height/2 + 50 > mouse[1] > height/2:
