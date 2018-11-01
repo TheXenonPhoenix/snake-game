@@ -19,11 +19,14 @@ playSurface = pygame.display.set_mode( (width, height))
 pygame.display.set_caption("Snake Game!")
 
 # Colors
-red   = pygame.Color(255, 0, 0)     # Game over
-green = pygame.Color(0, 255, 0)     # Snake
-black = pygame.Color(0, 0, 0)       # Score
+red   = pygame.Color(200, 0, 0)     # Game over
+green = pygame.Color(0, 200, 0)     # Snake & Start
+black = pygame.Color(0, 0, 0)       # Score & Quit
 white = pygame.Color(255, 255, 255) # Background
 brown = pygame.Color(165, 42, 42)   # Food
+brightGreen = pygame.Color(0,255,0) # Select Start
+brightRed = pygame.Color(255,0,0)   # Select Quit
+
 # Snake
 tempColor = green #pygame.Color(random.randint(0,255), random.randint(0,255), random.randint(0,255))
 
@@ -60,6 +63,24 @@ def gameIntro():
         gameOverRect = gameOverSurface.get_rect() # Give a position to gameOverSurface
         gameOverRect.midtop = (width/2, 15)
         playSurface.blit(gameOverSurface, gameOverRect)
+
+        mouse = pygame.mouse.get_pos()
+
+        #play button
+        if width/4+100 > mouse[0] > width/4 and height/2 + 50 > mouse[1] > height/2:
+            pygame.draw.rect(playSurface, brightGreen, (width/4,height/2,100,50))
+        else:
+            pygame.draw.rect(playSurface, green, (width/4,height/2,100,50))
+        
+
+        #quit button
+        if width*2/3+100 > mouse[0] > width*2/3 and height/2 + 50 > mouse[1] > height/2:
+            pygame.draw.rect(playSurface, brightRed, (width*2/3,height/2,100,50))
+        else:
+            pygame.draw.rect(playSurface, red, (width*2/3,height/2,100,50))
+
+
+
         pygame.display.update()
         fpsController.tick(15)
 
