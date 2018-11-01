@@ -209,16 +209,16 @@ def wrapOff(snakePosition):
 
 # Moves the snake to the other side of the board
 def wrapOn(snakePosition):
-    if snakePosition[0] > width:
+    if snakePosition[0] > width - 10:
         snakePosition[0] = 0
     if snakePosition[0] < 0:
-        snakePosition[0] = width
-    if snakePosition[1] > height:
+        snakePosition[0] = width - 10
+    if snakePosition[1] > height - 10:
         snakePosition[1] = 0      
     if snakePosition[1] < 0:
-        snakePosition[1] = height
+        snakePosition[1] = height - 10
 
-gameIntro()
+#gameIntro()
 # Main Logic of the Game
 playing = True
 while playing:
