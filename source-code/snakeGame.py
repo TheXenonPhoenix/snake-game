@@ -37,6 +37,7 @@ foodSpawn = True
 # Else, it will
 wrap = False
 
+# Starting direction
 direction = "RIGHT"
 changeto = direction
 
@@ -109,13 +110,25 @@ def changeDirection(direction, snakePosition):
         snakePosition[1] += 10
     return snakePosition
 
-# Ends the game is the snake moves off the board
+# Handles the addition of new pieces of the snak
+def snakeBodyMechanism(snakeBody, snakePosition, foodPosition, score, foodSpawn):
+    snakeBody.insert(0, list(snakePosition))
+    if snakePosition[0] == foodPosition[0] and snakePosition[1] == foodPosition[1]:
+        score += 1
+        foodSpawn = False
+    else:
+        snakeBody.pop()
+    return score, foodSpawn
+
+
+# Ends the game if the snake moves off the board
 def wrapOff(snakePosition):
     if snakePosition[0] > 710 or snakePosition[0] < 0:
         gameOver()
     if snakePosition[1] > 450 or snakePosition[1] < 0:
         gameOver()
 
+# Moves the snake to the other side of the board
 def wrapOn(snakePosition):
     if snakePosition[0] > 710:
         snakePosition[0] = 10
@@ -133,15 +146,7 @@ while True:
 
     direction = validateDirection(changeto, direction)
     snakePosition = changeDirection(direction, snakePosition)
-    
-    
-    # Snake Body Mechanism
-    snakeBody.insert(0, list(snakePosition))
-    if snakePosition[0] == foodPosition[0] and snakePosition[1] == foodPosition[1]:
-        score += 1
-        foodSpawn = False
-    else:
-        snakeBody.pop()
+    score, foodSpawn = snakeBodyMechanism(snakeBody, snakePosition, foodPosition, score, foodSpawn)
     
     # Spawns the food on the Background
     if foodSpawn == False:
