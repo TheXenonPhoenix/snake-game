@@ -157,9 +157,12 @@ while True:
     # Background
     playSurface.fill(white)
     
+    tempColor = green
+    #tempColor = pygame.Color(random.randint(0,255), random.randint(0,255), random.randint(0,255))
+
     # Drawing Snake
     for position in snakeBody:
-        pygame.draw.rect(playSurface, green, pygame.Rect(position[0], position[1], 10, 10))
+        pygame.draw.rect(playSurface, tempColor, pygame.Rect(position[0], position[1], 10, 10))
     pygame.draw.rect(playSurface, brown, pygame.Rect(foodPosition[0], foodPosition[1], 10, 10))
     
     if(wrap == True):
