@@ -85,7 +85,11 @@ def gameIntro():
         else:
             pygame.draw.rect(playSurface, red, (width*2/3,height/2,100,50))
 
-
+        myFont = pygame.font.SysFont('monaco', width/25)
+        startText = myFont.render('Quit', True, black)
+        startRect = startText.get_rect()
+        startRect.midtop = ( (width*2/3+(50)), (height/2+(25)) )
+        playSurface.blit(startText, startRect)
 
         pygame.display.update()
         fpsController.tick(15)
