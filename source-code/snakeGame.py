@@ -1,5 +1,8 @@
 # Snake Game! 
 
+# Using some steps from this walkthrough
+# https://pythonprogramming.net/placing-text-pygame-buttons/
+
 # Game Imports
 import pygame, sys, random, time
 
