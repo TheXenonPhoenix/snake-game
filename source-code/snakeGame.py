@@ -149,7 +149,6 @@ def draw():
     else:
         wrapOff(snakePosition)
 
-
 # Ends the game if the snake moves off the board
 def wrapOff(snakePosition):
     if snakePosition[0] > 710 or snakePosition[0] < 0:
