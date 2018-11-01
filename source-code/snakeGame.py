@@ -118,6 +118,10 @@ def snakeBodyMechanism(snakeBody, snakePosition, foodPosition, score, foodSpawn)
         foodSpawn = False
     else:
         snakeBody.pop()
+
+    for block in snakeBody[1:]:
+        if snakePosition[0] == block[0] and snakePosition[1] == block[1]:
+            gameOver()
     return score, foodSpawn
 
 def updateFood(foodSpawn, foodPosition):
@@ -175,10 +179,6 @@ while True:
     foodSpawn, foodPosition = updateFood(foodSpawn, foodPosition)
 
     draw()
-    
-    for block in snakeBody[1:]:
-        if snakePosition[0] == block[0] and snakePosition[1] == block[1]:
-            gameOver()
     
     showScore()
     pygame.display.update()
