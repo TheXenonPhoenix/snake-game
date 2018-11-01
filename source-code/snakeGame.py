@@ -11,7 +11,9 @@ else:
     print("(+) Pygame successfully initialized!")
 
 # Player Surface
-playSurface = pygame.display.set_mode( (720, 460))
+width = 1000
+height = 500
+playSurface = pygame.display.set_mode( (width, height))
 
 # Changing the window title
 pygame.display.set_caption("Snake Game!")
@@ -22,6 +24,8 @@ green = pygame.Color(0, 255, 0)     # Snake
 black = pygame.Color(0, 0, 0)       # Score
 white = pygame.Color(255, 255, 255) # Background
 brown = pygame.Color(165, 42, 42)   # Food
+# Snake
+tempColor = green #pygame.Color(random.randint(0,255), random.randint(0,255), random.randint(0,255))
 
 # FPS(Frames Per Second) Controller
 fpsController = pygame.time.Clock()
@@ -30,7 +34,7 @@ fpsController = pygame.time.Clock()
 snakePosition = [100, 50]
 snakeBody = [[100, 50], [90, 50], [80, 50]]
 
-foodPosition = [random.randrange(1, 72)*10, random.randrange(1, 46)*10]
+foodPosition = [random.randrange(1, width/10)*10, random.randrange(1, height/10)*10]
 foodSpawn = True
 
 # If True, then snake will no die when hit the edge of the map
@@ -45,10 +49,10 @@ score = 0
 
 # Game Over Function
 def gameOver():
-    myFont = pygame.font.SysFont('monaco', 72)
+    myFont = pygame.font.SysFont('monaco', width/10)
     gameOverSurface = myFont.render('Game Over!', True, red) # Three args: ('text', anti-aliasing, color)
     gameOverRect = gameOverSurface.get_rect() # Give a position to gameOverSurface
-    gameOverRect.midtop = (360, 15)
+    gameOverRect.midtop = (width/2, 15)
     playSurface.blit(gameOverSurface, gameOverRect)
     showScore(0)
     pygame.display.update() # Update the Screen
@@ -63,7 +67,7 @@ def showScore(choice = 1):
     if choice == 1:
         scoreRect.midtop = (80, 10)
     else:
-        scoreRect.midtop = (360, 120)
+        scoreRect.midtop = (width/2, 120)
     playSurface.blit(scoreSurface, scoreRect)
 
 # Checks the events of the game while its running
@@ -127,7 +131,7 @@ def snakeBodyMechanism(snakeBody, snakePosition, foodPosition, score, foodSpawn)
 def updateFood(foodSpawn, foodPosition):
     # Spawns the food on the Background
     if foodSpawn == False:
-        foodPosition = [random.randrange(1, 72)*10, random.randrange(1, 46)*10]
+        foodPosition = [random.randrange(1, width/10)*10, random.randrange(1, height/10)*10]
         foodSpawn = True
     return foodSpawn, foodPosition
 
@@ -135,9 +139,6 @@ def updateFood(foodSpawn, foodPosition):
 def draw():
     # Background
     playSurface.fill(white)
-
-    tempColor = green
-    #tempColor = pygame.Color(random.randint(0,255), random.randint(0,255), random.randint(0,255))
     
     # Drawing Snake
     for position in snakeBody:
@@ -151,21 +152,21 @@ def draw():
 
 # Ends the game if the snake moves off the board
 def wrapOff(snakePosition):
-    if snakePosition[0] > 710 or snakePosition[0] < 0:
+    if snakePosition[0] > width - 10 or snakePosition[0] < 0:
         gameOver()
-    if snakePosition[1] > 450 or snakePosition[1] < 0:
+    if snakePosition[1] > height -10 or snakePosition[1] < 0:
         gameOver()
 
 # Moves the snake to the other side of the board
 def wrapOn(snakePosition):
-    if snakePosition[0] > 710:
-        snakePosition[0] = 10
+    if snakePosition[0] > width:
+        snakePosition[0] = 0
     if snakePosition[0] < 0:
-        snakePosition[0] = 700
-    if snakePosition[1] > 450:
-        snakePosition[1] = 10      
+        snakePosition[0] = width
+    if snakePosition[1] > height:
+        snakePosition[1] = 0      
     if snakePosition[1] < 0:
-        snakePosition[1] = 440
+        snakePosition[1] = height
 
 # Main Logic of the Game
 while True:
