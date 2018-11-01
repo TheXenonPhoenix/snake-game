@@ -67,35 +67,30 @@ def gameIntro():
         gameOverRect.midtop = (width/2, 15)
         playSurface.blit(gameOverSurface, gameOverRect)
 
-
         mouse = pygame.mouse.get_pos()
 
         #play button
-        if width/4+100 > mouse[0] > width/4 and height/2 + 50 > mouse[1] > height/2:
-            pygame.draw.rect(playSurface, brightGreen, (width/4,height/2,100,50))
-        else:
-            pygame.draw.rect(playSurface, green, (width/4,height/2,100,50))
-        #play text
-        myFont = pygame.font.SysFont('monaco', width/25)
-        startText = myFont.render('Go!', True, black)
-        startRect = startText.get_rect()
-        startRect.midtop = ( (width/4+(50)), (height/2+(25)) )
-        playSurface.blit(startText, startRect)
+        playButton = button('Go!', width/4, height/2, 100, 50, green, brightGreen)
 
         #quit button
-        if width*2/3+100 > mouse[0] > width*2/3 and height/2 + 50 > mouse[1] > height/2:
-            pygame.draw.rect(playSurface, brightRed, (width*2/3,height/2,100,50))
-        else:
-            pygame.draw.rect(playSurface, red, (width*2/3,height/2,100,50))
-        #quit text
-        myFont = pygame.font.SysFont('monaco', width/25)
-        quitText = myFont.render('Quit', True, black)
-        quitRect = quitText.get_rect()
-        quitRect.midtop = ( (width*2/3+(50)), (height/2+(25)) )
-        playSurface.blit(quitText, quitRect)
+        quitButton = button('Quit', width*2/3, height/2, 100, 50, red, brightRed)
 
         pygame.display.update()
         fpsController.tick(15)
+
+def button(msg,x,y,w,h,ic,ac):
+    mouse = pygame.mouse.get_pos()
+
+    if x+w > mouse[0] > x and y+h > mouse[1] > y:
+        pygame.draw.rect(playSurface, ac,(x,y,w,h))
+    else:
+        pygame.draw.rect(playSurface, ic,(x,y,w,h))
+
+    myFont = pygame.font.SysFont('monaco', width/25)
+    text = myFont.render(msg, True, black)
+    rect = text.get_rect()
+    rect.center = ( (x+(w/2)), (y+(h/2)) )
+    playSurface.blit(text, rect)
 
 # Game Over Function
 def gameOver():
@@ -218,7 +213,7 @@ def wrapOn(snakePosition):
     if snakePosition[1] < 0:
         snakePosition[1] = height - 10
 
-#gameIntro()
+gameIntro()
 # Main Logic of the Game
 playing = True
 while playing:
