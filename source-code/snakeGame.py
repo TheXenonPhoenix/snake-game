@@ -33,6 +33,10 @@ snakeBody = [[100, 50], [90, 50], [80, 50]]
 foodPosition = [random.randrange(1, 72)*10, random.randrange(1, 46)*10]
 foodSpawn = True
 
+# If True, then snake will no die when hit the edge of the map
+# Else, it will
+wrap = False
+
 direction = "RIGHT"
 changeto = direction
 
@@ -105,6 +109,23 @@ def changeDirection(direction, snakePosition):
         snakePosition[1] += 10
     return snakePosition
 
+# Ends the game is the snake moves off the board
+def wrapOff(snakePosition):
+    if snakePosition[0] > 710 or snakePosition[0] < 0:
+        gameOver()
+    if snakePosition[1] > 450 or snakePosition[1] < 0:
+        gameOver()
+
+def wrapOn(snakePosition):
+    if snakePosition[0] > 710:
+        snakePosition[0] = 10
+    if snakePosition[0] < 0:
+        snakePosition[0] = 700
+    if snakePosition[1] > 450:
+        snakePosition[1] = 10      
+    if snakePosition[1] < 0:
+        snakePosition[1] = 440
+
 # Main Logic of the Game
 while True:
     for event in pygame.event.get():
@@ -122,6 +143,7 @@ while True:
     else:
         snakeBody.pop()
     
+    # Spawns the food on the Background
     if foodSpawn == False:
         foodPosition = [random.randrange(1, 72)*10, random.randrange(1, 46)*10]
         foodSpawn = True
@@ -135,10 +157,10 @@ while True:
         pygame.draw.rect(playSurface, green, pygame.Rect(position[0], position[1], 10, 10))
     pygame.draw.rect(playSurface, brown, pygame.Rect(foodPosition[0], foodPosition[1], 10, 10))
     
-    if snakePosition[0] > 710 or snakePosition[0] < 0:
-        gameOver()
-    if snakePosition[1] > 450 or snakePosition[1] < 0:
-        gameOver()
+    if(wrap == True):
+        wrapOn(snakePosition)
+    else:
+        wrapOff(snakePosition)
     
     for block in snakeBody[1:]:
         if snakePosition[0] == block[0] and snakePosition[1] == block[1]:
