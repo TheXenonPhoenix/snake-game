@@ -75,8 +75,8 @@ def gameIntro():
             pygame.draw.rect(playSurface, brightGreen, (width/4,height/2,100,50))
         else:
             pygame.draw.rect(playSurface, green, (width/4,height/2,100,50))
-        
-        myFont = pygame.font.SysFont('monaco', width/20)
+        #play text
+        myFont = pygame.font.SysFont('monaco', width/25)
         startText = myFont.render('Go!', True, black)
         startRect = startText.get_rect()
         startRect.midtop = ( (width/4+(50)), (height/2+(25)) )
@@ -87,12 +87,12 @@ def gameIntro():
             pygame.draw.rect(playSurface, brightRed, (width*2/3,height/2,100,50))
         else:
             pygame.draw.rect(playSurface, red, (width*2/3,height/2,100,50))
-
+        #quit text
         myFont = pygame.font.SysFont('monaco', width/25)
-        startText = myFont.render('Quit', True, black)
-        startRect = startText.get_rect()
-        startRect.midtop = ( (width*2/3+(50)), (height/2+(25)) )
-        playSurface.blit(startText, startRect)
+        quitText = myFont.render('Quit', True, black)
+        quitRect = quitText.get_rect()
+        quitRect.midtop = ( (width*2/3+(50)), (height/2+(25)) )
+        playSurface.blit(quitText, quitRect)
 
         pygame.display.update()
         fpsController.tick(15)
