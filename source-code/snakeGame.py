@@ -11,8 +11,8 @@ else:
     print("(+) Pygame successfully initialized!")
 
 # Player Surface
-width = 1000
-height = 500
+width = 720
+height = 460
 playSurface = pygame.display.set_mode( (width, height))
 
 # Changing the window title
@@ -39,13 +39,29 @@ foodSpawn = True
 
 # If True, then snake will no die when hit the edge of the map
 # Else, it will
-wrap = False
+wrap = True
 
 # Starting direction
 direction = "RIGHT"
 changeto = direction
 
 score = 0
+
+def gameIntro():
+    intro = True
+    while intro:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                quit()
+        playSurface.fill(white)
+        myFont = pygame.font.SysFont('monaco', width/10)
+        gameOverSurface = myFont.render('Welcome to Snake!', True, black) # Three args: ('text', anti-aliasing, color)
+        gameOverRect = gameOverSurface.get_rect() # Give a position to gameOverSurface
+        gameOverRect.midtop = (width/2, 15)
+        playSurface.blit(gameOverSurface, gameOverRect)
+        pygame.display.update()
+        fpsController.tick(15)
 
 # Game Over Function
 def gameOver():
@@ -168,8 +184,10 @@ def wrapOn(snakePosition):
     if snakePosition[1] < 0:
         snakePosition[1] = height
 
+gameIntro()
 # Main Logic of the Game
-while True:
+playing = True
+while playing:
     for event in pygame.event.get():
         changeto = eventLogic(event, changeto)
 
