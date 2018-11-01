@@ -73,6 +73,18 @@ def validateDirection(changeto, direction):
         direction = 'DOWN'
     return direction
 
+# Changing values of x and y co-ordinate
+def changeDirection(direction, snakePosition):
+    if direction == 'RIGHT':
+        snakePosition[0] += 10
+    if direction == 'LEFT':
+        snakePosition[0] -= 10
+    if direction == 'UP':
+        snakePosition[1] -= 10
+    if direction == 'DOWN':
+        snakePosition[1] += 10
+    return snakePosition
+
 # Main Logic of the Game
 while True:
     for event in pygame.event.get():
@@ -93,16 +105,8 @@ while True:
                 pygame.event.post(pygame.event.Event(pygame.QUIT))
 
     direction = validateDirection(changeto, direction)
-
-    # Changing values of x and y co-ordinate
-    if direction == 'RIGHT':
-        snakePosition[0] += 10
-    if direction == 'LEFT':
-        snakePosition[0] -= 10
-    if direction == 'UP':
-        snakePosition[1] -= 10
-    if direction == 'DOWN':
-        snakePosition[1] += 10
+    snakePosition = changeDirection(direction, snakePosition)
+    
     
     # Snake Body Mechanism
     snakeBody.insert(0, list(snakePosition))
