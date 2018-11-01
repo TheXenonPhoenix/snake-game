@@ -120,6 +120,31 @@ def snakeBodyMechanism(snakeBody, snakePosition, foodPosition, score, foodSpawn)
         snakeBody.pop()
     return score, foodSpawn
 
+def updateFood(foodSpawn, foodPosition):
+    # Spawns the food on the Background
+    if foodSpawn == False:
+        foodPosition = [random.randrange(1, 72)*10, random.randrange(1, 46)*10]
+        foodSpawn = True
+    return foodSpawn, foodPosition
+
+# Draws the Graphics of the Game
+def draw():
+    # Background
+    playSurface.fill(white)
+
+    tempColor = green
+    #tempColor = pygame.Color(random.randint(0,255), random.randint(0,255), random.randint(0,255))
+    
+    # Drawing Snake
+    for position in snakeBody:
+        pygame.draw.rect(playSurface, tempColor, pygame.Rect(position[0], position[1], 10, 10))
+    pygame.draw.rect(playSurface, brown, pygame.Rect(foodPosition[0], foodPosition[1], 10, 10))
+        
+    if(wrap == True):
+        wrapOn(snakePosition)
+    else:
+        wrapOff(snakePosition)
+
 
 # Ends the game if the snake moves off the board
 def wrapOff(snakePosition):
@@ -147,28 +172,9 @@ while True:
     direction = validateDirection(changeto, direction)
     snakePosition = changeDirection(direction, snakePosition)
     score, foodSpawn = snakeBodyMechanism(snakeBody, snakePosition, foodPosition, score, foodSpawn)
-    
-    # Spawns the food on the Background
-    if foodSpawn == False:
-        foodPosition = [random.randrange(1, 72)*10, random.randrange(1, 46)*10]
-        foodSpawn = True
-    
-    # Graphics of the Game
-    # Background
-    playSurface.fill(white)
-    
-    tempColor = green
-    #tempColor = pygame.Color(random.randint(0,255), random.randint(0,255), random.randint(0,255))
+    foodSpawn, foodPosition = updateFood(foodSpawn, foodPosition)
 
-    # Drawing Snake
-    for position in snakeBody:
-        pygame.draw.rect(playSurface, tempColor, pygame.Rect(position[0], position[1], 10, 10))
-    pygame.draw.rect(playSurface, brown, pygame.Rect(foodPosition[0], foodPosition[1], 10, 10))
-    
-    if(wrap == True):
-        wrapOn(snakePosition)
-    else:
-        wrapOff(snakePosition)
+    draw()
     
     for block in snakeBody[1:]:
         if snakePosition[0] == block[0] and snakePosition[1] == block[1]:
