@@ -61,6 +61,26 @@ def showScore(choice = 1):
         scoreRect.midtop = (360, 120)
     playSurface.blit(scoreSurface, scoreRect)
 
+# Checks the events of the game while its running
+# Will either end the game or move the snake's direction
+def eventLogic(event, changeto):
+    if event.type == pygame.QUIT:
+        pygame.quit()
+        sys.exit()
+    elif event.type == pygame.KEYDOWN:
+        if event.key == pygame.K_RIGHT or event.key == ord('d'):
+            changeto = 'RIGHT'
+        if event.key == pygame.K_LEFT or event.key == ord('a'):
+            changeto = 'LEFT'
+        if event.key == pygame.K_UP or event.key == ord('w'):
+            changeto = 'UP'
+        if event.key == pygame.K_DOWN or event.key == ord('s'):
+            changeto = 'DOWN'
+        if event.key == pygame.K_ESCAPE:
+            # post() is used to create an event
+            pygame.event.post(pygame.event.Event(pygame.QUIT))
+    return changeto
+
 # Validation of direction
 def validateDirection(changeto, direction):
     if changeto == 'RIGHT' and not direction == 'LEFT':
@@ -88,21 +108,7 @@ def changeDirection(direction, snakePosition):
 # Main Logic of the Game
 while True:
     for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            pygame.quit()
-            sys.exit()
-        elif event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_RIGHT or event.key == ord('d'):
-                changeto = 'RIGHT'
-            if event.key == pygame.K_LEFT or event.key == ord('a'):
-                changeto = 'LEFT'
-            if event.key == pygame.K_UP or event.key == ord('w'):
-                changeto = 'UP'
-            if event.key == pygame.K_DOWN or event.key == ord('s'):
-                changeto = 'DOWN'
-            if event.key == pygame.K_ESCAPE:
-                # post() is used to create an event
-                pygame.event.post(pygame.event.Event(pygame.QUIT))
+        changeto = eventLogic(event, changeto)
 
     direction = validateDirection(changeto, direction)
     snakePosition = changeDirection(direction, snakePosition)
