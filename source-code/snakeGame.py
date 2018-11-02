@@ -70,19 +70,26 @@ def gameIntro():
         mouse = pygame.mouse.get_pos()
 
         #play button
-        playButton = button('Go!', width/4, height/2, 100, 50, green, brightGreen)
+        playButton = button('Go!', width/4, height/2, 100, 50, green, brightGreen, "Play")
 
         #quit button
-        quitButton = button('Quit', width*2/3, height/2, 100, 50, red, brightRed)
+        quitButton = button('Quit', width*2/3, height/2, 100, 50, red, brightRed, "Quit")
 
         pygame.display.update()
         fpsController.tick(15)
 
-def button(msg,x,y,w,h,ic,ac):
+def button(msg,x,y,w,h,ic,ac,action=None):
     mouse = pygame.mouse.get_pos()
+    click = pygame.mouse.get_pressed()
 
     if x+w > mouse[0] > x and y+h > mouse[1] > y:
         pygame.draw.rect(playSurface, ac,(x,y,w,h))
+        if click[0] == 1 and action != None: #if clicked on the button
+            if action == "Play":
+                print("something")#need to put play game here
+            elif action == "Quit":
+                pygame.quit()
+                quit()
     else:
         pygame.draw.rect(playSurface, ic,(x,y,w,h))
 
@@ -213,8 +220,9 @@ def wrapOn(snakePosition):
     if snakePosition[1] < 0:
         snakePosition[1] = height - 10
 
-gameIntro()
+#gameIntro()
 # Main Logic of the Game
+#def playGame():
 playing = True
 while playing:
     for event in pygame.event.get():
