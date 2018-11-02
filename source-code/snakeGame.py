@@ -84,9 +84,11 @@ def buttonActionHandler(action):
     elif action == "Pause":
         pauseScreen()
     elif action == "Reset":
+        # Resets variables to original
         snakePosition = [100, 50]
         snakeBody = [[100, 50], [90, 50], [80, 50]]
         score = 0
+
         playGame()
     elif action == "Quit":
         pygame.quit()
@@ -94,8 +96,7 @@ def buttonActionHandler(action):
 
 # Intro Screen of game
 def gameIntro():
-    intro = True
-    while intro:
+    while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
@@ -124,8 +125,7 @@ def playGame():
     global score
     global foodSpawn
 
-    playing = True
-    while playing:
+    while True:
         for event in pygame.event.get():
             changeto = eventLogic(event, changeto)
 
