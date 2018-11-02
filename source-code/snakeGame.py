@@ -81,8 +81,16 @@ def buttonActionHandler(action):
     global snakeBody
     global score
     global paused
+    global wrap
+    global direction
+    global changeto
     
     if action == "Play":
+        snakePosition = [100, 50]
+        snakeBody = [[100, 50], [90, 50], [80, 50]]
+        score = 0
+        direction = "RIGHT"
+        changeto = direction
         playGame()
     elif action == "Pause":
         pauseScreen()
@@ -91,7 +99,15 @@ def buttonActionHandler(action):
         snakePosition = [100, 50]
         snakeBody = [[100, 50], [90, 50], [80, 50]]
         score = 0
-
+        direction = "RIGHT"
+        changeto = direction
+    elif action == "Wrap":    
+        snakePosition = [100, 50]
+        snakeBody = [[100, 50], [90, 50], [80, 50]]
+        score = 0
+        direction = "RIGHT"
+        changeto = direction
+        wrap = True
         playGame()
     elif action == "Home":
         gameIntro()
@@ -114,9 +130,11 @@ def gameIntro():
         playSurface.blit(gameOverSurface, gameOverRect)
 
         # Play button
-        playButton = button('Go!', width/4, height/2, 100, 50, green, brightGreen, "Play")
+        button('Wrap Off', width/4, height/2, 100, 50, green, brightGreen, "Play")
+        # Wrap On button
+        button('Wrap On', width/4, height/2 + 100, 100, 50, green, brightGreen, "Wrap")
         # Quit button
-        quitButton = button('Quit', width*2/3, height/2, 100, 50, red, brightRed, "Quit")
+        button('Quit', width*2/3, height/2, 100, 50, red, brightRed, "Quit")
 
         pygame.display.update()
         fpsController.tick(15)
