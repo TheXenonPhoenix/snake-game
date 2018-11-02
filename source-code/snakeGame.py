@@ -43,7 +43,7 @@ snakePosition = [100, 50]
 snakeBody = [[100, 50], [90, 50], [80, 50]]
 
 # First Random spawn of food
-foodPosition = [random.randrange(1, width/10)*10, random.randrange(1, height/10)*10]
+foodPosition = [random.randrange(1, width/10)*10, random.randrange(4, height/10)*10]
 foodSpawn = True
 
 # If True, then snake will no die when hit the edge of the map
@@ -99,6 +99,7 @@ def buttonActionHandler(action):
     
     if action == "Play":
         snakePosition, snakeBody, score, direction, changeto = initVariables(snakePosition, snakeBody, score, direction, changeto) 
+        wrap = True
         playGame()
     elif action == "Pause":
         pauseScreen()
@@ -107,7 +108,7 @@ def buttonActionHandler(action):
         snakePosition, snakeBody, score, direction, changeto = initVariables(snakePosition, snakeBody, score, direction, changeto) 
     elif action == "Wrap":    
         snakePosition, snakeBody, score, direction, changeto = initVariables(snakePosition, snakeBody, score, direction, changeto) 
-        wrap = True
+        wrap = False
         playGame()
     elif action == "Home":
         gameIntro()
@@ -133,9 +134,9 @@ def gameIntro():
         playSurface.blit(gameOverSurface, gameOverRect)
 
         # Play button
-        button('Wrap Off', width/4, height/2, 100, 50, green, brightGreen, "Play")
+        button('Wrap Off', width/4, height/2, 100, 50, green, brightGreen, "Wrap")
         # Wrap On button
-        button('Wrap On', width/4, height/2 + 100, 100, 50, green, brightGreen, "Wrap")
+        button('Wrap On', width/4, height/2 + 100, 100, 50, green, brightGreen, "Play")
         # Quit button
         button('Quit', width*2/3, height/2, 100, 50, red, brightRed, "Quit")
 
@@ -273,13 +274,14 @@ def snakeBodyMechanism(snakeBody, snakePosition, foodPosition, score, foodSpawn)
 # Spawns the food on the Background
 def updateFood(foodSpawn, foodPosition):
     if foodSpawn == False:
-        foodPosition = [random.randrange(1, width/10)*10, random.randrange(1, height/10)*10]
+        foodPosition = [random.randrange(1, width/10)*10, random.randrange(4, height/10)*10]
         foodSpawn = True
     return foodSpawn, foodPosition
 
 # Draws the Graphics of the Game
 def draw():
     playSurface.fill(white) # Background
+    pygame.draw.rect(playSurface, green, (0, 0, width, 40), 1)
     
     for position in snakeBody: # Drawing Snake
         pygame.draw.rect(playSurface, tempColor, pygame.Rect(position[0], position[1], 10, 10))
@@ -302,7 +304,7 @@ def draw():
 def wrapOff(snakePosition):
     if snakePosition[0] > width - 10 or snakePosition[0] < 0:
         gameOver()
-    if snakePosition[1] > height -10 or snakePosition[1] < 0:
+    if snakePosition[1] > height -10 or snakePosition[1] < 40:
         gameOver()
 
 # Moves the snake to the other side of the board
