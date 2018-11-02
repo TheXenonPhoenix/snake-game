@@ -42,6 +42,7 @@ fpsController = pygame.time.Clock()
 snakePosition = [100, 50]
 snakeBody = [[100, 50], [90, 50], [80, 50]]
 
+# First Random spawn of food
 foodPosition = [random.randrange(1, width/10)*10, random.randrange(1, height/10)*10]
 foodSpawn = True
 
@@ -53,8 +54,10 @@ wrap = True
 direction = "RIGHT"
 changeto = direction
 
+# Initial Score
 score = 0
 
+# Turns pause screen on/off
 paused = False
 
 # Method to create buttons
@@ -111,6 +114,9 @@ def buttonActionHandler(action):
         playGame()
     elif action == "Home":
         gameIntro()
+    elif action == "Resume":
+        paused = False
+        playGame()
     elif action == "Quit":
         pygame.quit()
         quit()
@@ -178,7 +184,7 @@ def pauseScreen():
         playSurface.blit(gameOverSurface, gameOverRect)
 
         # Resume button
-        resumeButton = button('Resume', width/4, height/2, 100, 50, green, brightGreen, "Play")
+        resumeButton = button('Resume', width/4, height/2, 100, 50, green, brightGreen, "Resume")
         # Quit button
         quitButton = button('Quit', width*2/3, height/2, 100, 50, red, brightRed, "Quit")
 
