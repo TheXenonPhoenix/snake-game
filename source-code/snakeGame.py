@@ -22,13 +22,15 @@ playSurface = pygame.display.set_mode( (width, height))
 pygame.display.set_caption("Snake Game!")
 
 # Colors
-red   = pygame.Color(200, 0, 0)     # Game over
-green = pygame.Color(0, 200, 0)     # Snake & Start
-black = pygame.Color(0, 0, 0)       # Score & Quit
-white = pygame.Color(255, 255, 255) # Background
-brown = pygame.Color(165, 42, 42)   # Food
-brightGreen = pygame.Color(0,255,0) # Select Start
-brightRed = pygame.Color(255,0,0)   # Select Quit
+red   = pygame.Color(200, 0, 0)         # Game over
+green = pygame.Color(0, 200, 0)         # Snake & Start
+black = pygame.Color(0, 0, 0)           # Score & Quit
+white = pygame.Color(255, 255, 255)     # Background
+grey = pygame.Color(150, 150, 150)      # Pause
+brown = pygame.Color(165, 42, 42)       # Food
+brightGreen = pygame.Color(0,255,0)     # Select Start
+brightRed = pygame.Color(255,0,0)       # Select Quit
+lightGrey = pygame.Color(200, 200, 200) # Pause
 
 # Snake
 tempColor = green #pygame.Color(random.randint(0,255), random.randint(0,255), random.randint(0,255))
@@ -53,6 +55,7 @@ changeto = direction
 
 score = 0
 
+# Intro Screen of game
 def gameIntro():
     intro = True
     while intro:
@@ -75,6 +78,7 @@ def gameIntro():
         pygame.display.update()
         fpsController.tick(15)
 
+# Method to create buttons
 def button(msg,x,y,w,h,ic,ac,action=None):
     mouse = pygame.mouse.get_pos()
     click = pygame.mouse.get_pressed()
@@ -82,11 +86,7 @@ def button(msg,x,y,w,h,ic,ac,action=None):
     if x+w > mouse[0] > x and y+h > mouse[1] > y:
         pygame.draw.rect(playSurface, ac,(x,y,w,h))
         if click[0] == 1 and action != None: #if clicked on the button
-            if action == "Play":
-                playGame()
-            elif action == "Quit":
-                pygame.quit()
-                quit()
+            buttonActionHandler(action)
     else:
         pygame.draw.rect(playSurface, ic,(x,y,w,h))
 
@@ -95,6 +95,24 @@ def button(msg,x,y,w,h,ic,ac,action=None):
     rect = text.get_rect()
     rect.center = ( (x+(w/2)), (y+(h/2)) )
     playSurface.blit(text, rect)
+
+def buttonActionHandler(action):
+    global snakePosition
+    global snakeBody
+    global score
+    
+    if action == "Play":
+        playGame()
+    elif action == "Pause":
+        pauseScreen()
+    elif action == "Reset":
+        snakePosition = [100, 50]
+        snakeBody = [[100, 50], [90, 50], [80, 50]]
+        score = 0
+        playGame()
+    elif action == "Quit":
+        pygame.quit()
+        quit()
 
 # Main Logic of the Game
 def playGame():
@@ -116,10 +134,15 @@ def playGame():
         foodSpawn, foodPosition = updateFood(foodSpawn, foodPosition)
 
         draw()
-        
-        showScore()
+
         pygame.display.update()
         fpsController.tick(23) # Frame Rate Control
+
+# Screen to pause when playing
+def pauseScreen():
+    print("Hello")
+    pause = True
+
 
 # Game Over Function
 def gameOver():
@@ -211,11 +234,9 @@ def updateFood(foodSpawn, foodPosition):
 
 # Draws the Graphics of the Game
 def draw():
-    # Background
-    playSurface.fill(white)
+    playSurface.fill(white) # Background
     
-    # Drawing Snake
-    for position in snakeBody:
+    for position in snakeBody: # Drawing Snake
         pygame.draw.rect(playSurface, tempColor, pygame.Rect(position[0], position[1], 10, 10))
     pygame.draw.rect(playSurface, brown, pygame.Rect(foodPosition[0], foodPosition[1], 10, 10))
         
@@ -223,6 +244,10 @@ def draw():
         wrapOn(snakePosition)
     else:
         wrapOff(snakePosition)
+
+    showScore()
+    resetButton = button('Reset', width - 200, 10, 80, 20, grey, lightGrey, "Reset")
+    pauseButton = button('Pause', width - 100, 10, 80, 20, grey, lightGrey, "Pause")
 
 # Ends the game if the snake moves off the board
 def wrapOff(snakePosition):
