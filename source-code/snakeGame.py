@@ -84,12 +84,12 @@ def button(msg,x,y,w,h,ic,ac,action=None):
 
 # Initalizes inital variables for resets
 def initVariables(snakePosition, snakeBody, score, direction, changeto):
-        snakePosition = [100, 50]
-        snakeBody = [[100, 50], [90, 50], [80, 50]]
-        score = 0
-        direction = "RIGHT"
-        changeto = direction
-        return snakePosition, snakeBody, score, direction, changeto 
+    snakePosition = [100, 50]
+    snakeBody = [[100, 50], [90, 50], [80, 50]]
+    score = 0
+    direction = "RIGHT"
+    changeto = direction
+    return snakePosition, snakeBody, score, direction, changeto 
 
 # Changes the current screen based on the action of the button
 def buttonActionHandler(action):
