@@ -1,18 +1,21 @@
 # Snake Game! 
 
 # Using some steps from this walkthrough
-# https://pythonprogramming.net/placing-text-pygame-buttons/
+# https://pythonprogramming.net/pygame-python-3-part-1-intro/
 
 # Game Imports
 import pygame, sys, random, time
 
+#region pygame check
 check_errors = pygame.init()
 if check_errors[1] > 0:
     print("(!) Had {0} initializing errors, exiting...".format(check_errors))
     sys.exit(-1)    
 else:
     print("(+) Pygame successfully initialized!")
+#endregion
 
+#region Variables
 # Player Surface
 width = 720
 height = 460
@@ -59,6 +62,7 @@ score = 0
 
 # Turns pause screen on/off
 paused = False
+#endregion
 
 # Method to create buttons
 def button(msg,x,y,w,h,ic,ac,action=None):
