@@ -83,7 +83,7 @@ def button(msg,x,y,w,h,ic,ac,action=None):
         pygame.draw.rect(playSurface, ac,(x,y,w,h))
         if click[0] == 1 and action != None: #if clicked on the button
             if action == "Play":
-                print("something")#need to put play game here
+                playGame()
             elif action == "Quit":
                 pygame.quit()
                 quit()
@@ -95,6 +95,31 @@ def button(msg,x,y,w,h,ic,ac,action=None):
     rect = text.get_rect()
     rect.center = ( (x+(w/2)), (y+(h/2)) )
     playSurface.blit(text, rect)
+
+# Main Logic of the Game
+def playGame():
+    global changeto
+    global direction
+    global snakePosition
+    global foodPosition
+    global score
+    global foodSpawn
+
+    playing = True
+    while playing:
+        for event in pygame.event.get():
+            changeto = eventLogic(event, changeto)
+
+        direction = validateDirection(changeto, direction)
+        snakePosition = changeDirection(direction, snakePosition)
+        score, foodSpawn = snakeBodyMechanism(snakeBody, snakePosition, foodPosition, score, foodSpawn)
+        foodSpawn, foodPosition = updateFood(foodSpawn, foodPosition)
+
+        draw()
+        
+        showScore()
+        pygame.display.update()
+        fpsController.tick(23) # Frame Rate Control
 
 # Game Over Function
 def gameOver():
@@ -217,21 +242,5 @@ def wrapOn(snakePosition):
     if snakePosition[1] < 0:
         snakePosition[1] = height - 10
 
-#gameIntro()
-# Main Logic of the Game
-#def playGame():
-playing = True
-while playing:
-    for event in pygame.event.get():
-        changeto = eventLogic(event, changeto)
-
-    direction = validateDirection(changeto, direction)
-    snakePosition = changeDirection(direction, snakePosition)
-    score, foodSpawn = snakeBodyMechanism(snakeBody, snakePosition, foodPosition, score, foodSpawn)
-    foodSpawn, foodPosition = updateFood(foodSpawn, foodPosition)
-
-    draw()
-    
-    showScore()
-    pygame.display.update()
-    fpsController.tick(23) # Frame Rate Control
+# Run the game
+gameIntro()
