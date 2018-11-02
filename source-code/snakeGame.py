@@ -36,7 +36,7 @@ tempColor = green #pygame.Color(random.randint(0,255), random.randint(0,255), ra
 # FPS(Frames Per Second) Controller
 fpsController = pygame.time.Clock()
 
-#Important Variables
+# Important Variables
 snakePosition = [100, 50]
 snakeBody = [[100, 50], [90, 50], [80, 50]]
 
@@ -67,12 +67,9 @@ def gameIntro():
         gameOverRect.midtop = (width/2, 15)
         playSurface.blit(gameOverSurface, gameOverRect)
 
-        mouse = pygame.mouse.get_pos()
-
-        #play button
+        # Play button
         playButton = button('Go!', width/4, height/2, 100, 50, green, brightGreen, "Play")
-
-        #quit button
+        # Quit button
         quitButton = button('Quit', width*2/3, height/2, 100, 50, red, brightRed, "Quit")
 
         pygame.display.update()
