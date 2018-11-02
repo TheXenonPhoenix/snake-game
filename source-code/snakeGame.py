@@ -55,6 +55,43 @@ changeto = direction
 
 score = 0
 
+# Method to create buttons
+def button(msg,x,y,w,h,ic,ac,action=None):
+    mouse = pygame.mouse.get_pos()
+    click = pygame.mouse.get_pressed()
+
+    if x+w > mouse[0] > x and y+h > mouse[1] > y:
+        pygame.draw.rect(playSurface, ac,(x,y,w,h))
+        if click[0] == 1 and action != None: #if clicked on the button
+            buttonActionHandler(action)
+    else:
+        pygame.draw.rect(playSurface, ic,(x,y,w,h))
+
+    myFont = pygame.font.SysFont('monaco', width/25)
+    text = myFont.render(msg, True, black)
+    rect = text.get_rect()
+    rect.center = ( (x+(w/2)), (y+(h/2)) )
+    playSurface.blit(text, rect)
+
+# Changes the current screen based on the action of the button
+def buttonActionHandler(action):
+    global snakePosition
+    global snakeBody
+    global score
+    
+    if action == "Play":
+        playGame()
+    elif action == "Pause":
+        pauseScreen()
+    elif action == "Reset":
+        snakePosition = [100, 50]
+        snakeBody = [[100, 50], [90, 50], [80, 50]]
+        score = 0
+        playGame()
+    elif action == "Quit":
+        pygame.quit()
+        quit()
+
 # Intro Screen of game
 def gameIntro():
     intro = True
@@ -77,42 +114,6 @@ def gameIntro():
 
         pygame.display.update()
         fpsController.tick(15)
-
-# Method to create buttons
-def button(msg,x,y,w,h,ic,ac,action=None):
-    mouse = pygame.mouse.get_pos()
-    click = pygame.mouse.get_pressed()
-
-    if x+w > mouse[0] > x and y+h > mouse[1] > y:
-        pygame.draw.rect(playSurface, ac,(x,y,w,h))
-        if click[0] == 1 and action != None: #if clicked on the button
-            buttonActionHandler(action)
-    else:
-        pygame.draw.rect(playSurface, ic,(x,y,w,h))
-
-    myFont = pygame.font.SysFont('monaco', width/25)
-    text = myFont.render(msg, True, black)
-    rect = text.get_rect()
-    rect.center = ( (x+(w/2)), (y+(h/2)) )
-    playSurface.blit(text, rect)
-
-def buttonActionHandler(action):
-    global snakePosition
-    global snakeBody
-    global score
-    
-    if action == "Play":
-        playGame()
-    elif action == "Pause":
-        pauseScreen()
-    elif action == "Reset":
-        snakePosition = [100, 50]
-        snakeBody = [[100, 50], [90, 50], [80, 50]]
-        score = 0
-        playGame()
-    elif action == "Quit":
-        pygame.quit()
-        quit()
 
 # Main Logic of the Game
 def playGame():
@@ -143,7 +144,6 @@ def pauseScreen():
     print("Hello")
     pause = True
 
-
 # Game Over Function
 def gameOver():
     myFont = pygame.font.SysFont('monaco', width/10)
@@ -157,6 +157,7 @@ def gameOver():
     pygame.quit() # pygame exit
     sys.exit() # Console exit
 
+# Displays current score at top left of game screen
 def showScore(choice = 1):
     scoreFont = pygame.font.SysFont('monaco', 24)
     scoreSurface = scoreFont.render('Score : {0}'.format(score), True, black)
@@ -225,8 +226,8 @@ def snakeBodyMechanism(snakeBody, snakePosition, foodPosition, score, foodSpawn)
             gameOver()
     return score, foodSpawn
 
+# Spawns the food on the Background
 def updateFood(foodSpawn, foodPosition):
-    # Spawns the food on the Background
     if foodSpawn == False:
         foodPosition = [random.randrange(1, width/10)*10, random.randrange(1, height/10)*10]
         foodSpawn = True
