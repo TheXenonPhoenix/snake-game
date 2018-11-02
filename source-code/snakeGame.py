@@ -78,6 +78,15 @@ def button(msg,x,y,w,h,ic,ac,action=None):
     rect.center = ( (x+(w/2)), (y+(h/2)) )
     playSurface.blit(text, rect)
 
+# Initalizes inital variables for resets
+def initVariables(snakePosition, snakeBody, score, direction, changeto):
+        snakePosition = [100, 50]
+        snakeBody = [[100, 50], [90, 50], [80, 50]]
+        score = 0
+        direction = "RIGHT"
+        changeto = direction
+        return snakePosition, snakeBody, score, direction, changeto 
+
 # Changes the current screen based on the action of the button
 def buttonActionHandler(action):
     global snakePosition
@@ -89,27 +98,15 @@ def buttonActionHandler(action):
     global changeto
     
     if action == "Play":
-        snakePosition = [100, 50]
-        snakeBody = [[100, 50], [90, 50], [80, 50]]
-        score = 0
-        direction = "RIGHT"
-        changeto = direction
+        snakePosition, snakeBody, score, direction, changeto = initVariables(snakePosition, snakeBody, score, direction, changeto) 
         playGame()
     elif action == "Pause":
         pauseScreen()
     elif action == "Reset":
         # Resets variables to original
-        snakePosition = [100, 50]
-        snakeBody = [[100, 50], [90, 50], [80, 50]]
-        score = 0
-        direction = "RIGHT"
-        changeto = direction
+        snakePosition, snakeBody, score, direction, changeto = initVariables(snakePosition, snakeBody, score, direction, changeto) 
     elif action == "Wrap":    
-        snakePosition = [100, 50]
-        snakeBody = [[100, 50], [90, 50], [80, 50]]
-        score = 0
-        direction = "RIGHT"
-        changeto = direction
+        snakePosition, snakeBody, score, direction, changeto = initVariables(snakePosition, snakeBody, score, direction, changeto) 
         wrap = True
         playGame()
     elif action == "Home":
