@@ -55,6 +55,8 @@ changeto = direction
 
 score = 0
 
+paused = False
+
 # Method to create buttons
 def button(msg,x,y,w,h,ic,ac,action=None):
     mouse = pygame.mouse.get_pos()
@@ -78,6 +80,7 @@ def buttonActionHandler(action):
     global snakePosition
     global snakeBody
     global score
+    global paused
     
     if action == "Play":
         playGame()
@@ -90,6 +93,8 @@ def buttonActionHandler(action):
         score = 0
 
         playGame()
+    elif action == "Home":
+        gameIntro()
     elif action == "Quit":
         pygame.quit()
         quit()
@@ -141,8 +146,26 @@ def playGame():
 
 # Screen to pause when playing
 def pauseScreen():
-    print("Hello")
-    pause = True
+    paused = True
+    while paused:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                quit()
+        playSurface.fill(white)
+        myFont = pygame.font.SysFont('monaco', width/10)
+        gameOverSurface = myFont.render('Paused', True, black) # Three args: ('text', anti-aliasing, color)
+        gameOverRect = gameOverSurface.get_rect() # Give a position to gameOverSurface
+        gameOverRect.midtop = (width/2, 15)
+        playSurface.blit(gameOverSurface, gameOverRect)
+
+        # Resume button
+        resumeButton = button('Resume', width/4, height/2, 100, 50, green, brightGreen, "Play")
+        # Quit button
+        quitButton = button('Quit', width*2/3, height/2, 100, 50, red, brightRed, "Quit")
+
+        pygame.display.update()
+        fpsController.tick(15)
 
 # Game Over Function
 def gameOver():
@@ -247,7 +270,11 @@ def draw():
         wrapOff(snakePosition)
 
     showScore()
+    # Home Button
+    resetButton = button('Home', width - 300, 10, 80, 20, grey, lightGrey, "Home")
+    # Reset Button
     resetButton = button('Reset', width - 200, 10, 80, 20, grey, lightGrey, "Reset")
+    # Pause Button
     pauseButton = button('Pause', width - 100, 10, 80, 20, grey, lightGrey, "Pause")
 
 # Ends the game if the snake moves off the board
