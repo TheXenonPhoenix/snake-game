@@ -123,6 +123,15 @@ def buttonActionHandler(action):
         pygame.quit()
         quit()
 
+# Screen maker
+def screenInfo(playSurface, pygame, text):
+    playSurface.fill(white)
+    myFont = pygame.font.SysFont('monaco', width/10)
+    gameOverSurface = myFont.render(text, True, black) # Three args: ('text', anti-aliasing, color)
+    gameOverRect = gameOverSurface.get_rect() # Give a position to gameOverSurface
+    gameOverRect.midtop = (width/2, 15)
+    playSurface.blit(gameOverSurface, gameOverRect)
+
 # Intro Screen of game
 def gameIntro():
     while True:
@@ -130,12 +139,7 @@ def gameIntro():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 quit()
-        playSurface.fill(white)
-        myFont = pygame.font.SysFont('monaco', width/10)
-        gameOverSurface = myFont.render('Welcome to Snake!', True, black) # Three args: ('text', anti-aliasing, color)
-        gameOverRect = gameOverSurface.get_rect() # Give a position to gameOverSurface
-        gameOverRect.midtop = (width/2, 15)
-        playSurface.blit(gameOverSurface, gameOverRect)
+        screenInfo(playSurface, pygame, 'Welcome to Snake!')
 
         # Play button
         button('Wrap Off', width/4, height/2, 100, 50, green, brightGreen, "Wrap")
@@ -178,12 +182,7 @@ def pauseScreen():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 quit()
-        playSurface.fill(white)
-        myFont = pygame.font.SysFont('monaco', width/10)
-        gameOverSurface = myFont.render('Paused', True, black) # Three args: ('text', anti-aliasing, color)
-        gameOverRect = gameOverSurface.get_rect() # Give a position to gameOverSurface
-        gameOverRect.midtop = (width/2, 15)
-        playSurface.blit(gameOverSurface, gameOverRect)
+        screenInfo(playSurface, pygame, 'Paused')
 
         # Resume button
         button('Resume', width/4, height/2, 100, 50, green, brightGreen, "Resume")
@@ -201,12 +200,7 @@ def gameOver():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 quit()
-        playSurface.fill(white)
-        myFont = pygame.font.SysFont('monaco', width/10)
-        gameOverSurface = myFont.render('Game Over!', True, red) # Three args: ('text', anti-aliasing, color)
-        gameOverRect = gameOverSurface.get_rect() # Give a position to gameOverSurface
-        gameOverRect.midtop = (width/2, 15)
-        playSurface.blit(gameOverSurface, gameOverRect)
+        screenInfo(playSurface, pygame, 'Game Over!')
 
         # Play button
         button('Try Again (Wrap Off)', width/4, height/2, 200, 50, green, brightGreen, "Wrap")
