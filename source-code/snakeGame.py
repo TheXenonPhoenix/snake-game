@@ -195,6 +195,7 @@ def pauseScreen():
 # Game Over Function
 def gameOver():
     gameOver = True
+    gameSaved = False
     while gameOver:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -210,6 +211,11 @@ def gameOver():
         button('Quit', width*2/3, height/2, 100, 50, red, brightRed, "Quit")
 
         showScore(0)
+        # Saves the score once
+        if not gameSaved:
+            saveScore()
+            gameSaved = True
+
         pygame.display.update()
         fpsController.tick(15)
 
@@ -330,6 +336,18 @@ def wrapOn(snakePosition):
         snakePosition[1] = 30
     elif snakePosition[1] < 40:
         snakePosition[1] = height - 10
-    
+
+# Saves the current score to a file
+def saveScore():
+    file_object = open("C:\Users\kp56156\Documents\SnakeGame\source-code\highScores.txt",'a')
+    file_object.write(str(int(score)) + "\n")
+    file_object.close()
+
+    # Used for debugging
+    #file_object = open("C:\Users\kp56156\Documents\SnakeGame\source-code\highScores.txt",'r')
+    #print(file_object.read())
+
+
 # Run the game
 gameIntro()
+
