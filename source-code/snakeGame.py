@@ -279,9 +279,7 @@ def snakeBodyMechanism(snakeBody, snakePosition, foodPosition, score, foodSpawn)
 
     for block in snakeBody[1:]:
         if snakePosition[0] == block[0] and snakePosition[1] == block[1]:
-            print(snakePosition[0],block[0])
-            print(snakePosition[1],block[1])
-            #gameOver()
+            gameOver()
     return score, foodSpawn
 
 # Spawns the food on the Background
@@ -325,13 +323,13 @@ def wrapOn(snakePosition):
     # Controls movements right and left
     if snakePosition[0] > width - 10:
         snakePosition[0] = 0
-    if snakePosition[0] < 0:
+    elif snakePosition[0] < 0:
         snakePosition[0] = width - 10
     # Contorls movements down and up
-    if snakePosition[1] < 0:
-        snakePosition[1] = height - 10
     if snakePosition[1] > height - 10:
-        snakePosition[1] = 0 
-
+        snakePosition[1] = 30
+    elif snakePosition[1] < 40:
+        snakePosition[1] = height - 10
+    
 # Run the game
 gameIntro()
