@@ -186,25 +186,38 @@ def pauseScreen():
         playSurface.blit(gameOverSurface, gameOverRect)
 
         # Resume button
-        resumeButton = button('Resume', width/4, height/2, 100, 50, green, brightGreen, "Resume")
+        button('Resume', width/4, height/2, 100, 50, green, brightGreen, "Resume")
         # Quit button
-        quitButton = button('Quit', width*2/3, height/2, 100, 50, red, brightRed, "Quit")
+        button('Quit', width*2/3, height/2, 100, 50, red, brightRed, "Quit")
 
         pygame.display.update()
         fpsController.tick(15)
 
 # Game Over Function
 def gameOver():
-    myFont = pygame.font.SysFont('monaco', width/10)
-    gameOverSurface = myFont.render('Game Over!', True, red) # Three args: ('text', anti-aliasing, color)
-    gameOverRect = gameOverSurface.get_rect() # Give a position to gameOverSurface
-    gameOverRect.midtop = (width/2, 15)
-    playSurface.blit(gameOverSurface, gameOverRect)
-    showScore(0)
-    pygame.display.update() # Update the Screen
-    time.sleep(4)
-    pygame.quit() # pygame exit
-    sys.exit() # Console exit
+    gameOver = True
+    while gameOver:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                quit()
+        playSurface.fill(white)
+        myFont = pygame.font.SysFont('monaco', width/10)
+        gameOverSurface = myFont.render('Game Over!', True, red) # Three args: ('text', anti-aliasing, color)
+        gameOverRect = gameOverSurface.get_rect() # Give a position to gameOverSurface
+        gameOverRect.midtop = (width/2, 15)
+        playSurface.blit(gameOverSurface, gameOverRect)
+
+        # Play button
+        button('Try Again (Wrap Off)', width/4, height/2, 200, 50, green, brightGreen, "Wrap")
+        # Wrap On button
+        button('Try Again (Wrap On)', width/4, height/2 + 100, 200, 50, green, brightGreen, "Play")
+        # Quit button
+        button('Quit', width*2/3, height/2, 100, 50, red, brightRed, "Quit")
+
+        showScore(0)
+        pygame.display.update()
+        fpsController.tick(15)
 
 # Displays current score at top left of game screen
 def showScore(choice = 1):
@@ -272,7 +285,9 @@ def snakeBodyMechanism(snakeBody, snakePosition, foodPosition, score, foodSpawn)
 
     for block in snakeBody[1:]:
         if snakePosition[0] == block[0] and snakePosition[1] == block[1]:
-            gameOver()
+            print(snakePosition[0],block[0])
+            print(snakePosition[1],block[1])
+            #gameOver()
     return score, foodSpawn
 
 # Spawns the food on the Background
@@ -298,11 +313,11 @@ def draw():
 
     showScore()
     # Home Button
-    resetButton = button('Home', width - 300, 10, 80, 20, grey, lightGrey, "Home")
+    button('Home', width - 300, 10, 80, 20, grey, lightGrey, "Home")
     # Reset Button
-    resetButton = button('Reset', width - 200, 10, 80, 20, grey, lightGrey, "Reset")
+    button('Reset', width - 200, 10, 80, 20, grey, lightGrey, "Reset")
     # Pause Button
-    pauseButton = button('Pause', width - 100, 10, 80, 20, grey, lightGrey, "Pause")
+    button('Pause', width - 100, 10, 80, 20, grey, lightGrey, "Pause")
 
 # Ends the game if the snake moves off the board
 def wrapOff(snakePosition):
@@ -313,14 +328,16 @@ def wrapOff(snakePosition):
 
 # Moves the snake to the other side of the board
 def wrapOn(snakePosition):
+    # Controls movements right and left
     if snakePosition[0] > width - 10:
         snakePosition[0] = 0
     if snakePosition[0] < 0:
         snakePosition[0] = width - 10
-    if snakePosition[1] > height - 10:
-        snakePosition[1] = 0      
+    # Contorls movements down and up
     if snakePosition[1] < 0:
         snakePosition[1] = height - 10
+    if snakePosition[1] > height - 10:
+        snakePosition[1] = 0 
 
 # Run the game
 gameIntro()
