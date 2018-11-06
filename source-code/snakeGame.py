@@ -378,4 +378,3 @@ def wrapOn(snakePosition):
 
 # Run the game
 gameIntro()
-
