@@ -5,6 +5,7 @@
 
 # Game Imports
 import pygame, sys, random, time
+from os import path
 
 #region pygame check
 check_errors = pygame.init()
@@ -14,6 +15,20 @@ if check_errors[1] > 0:
 else:
     print("(+) Pygame successfully initialized!")
 #endregion
+
+# Loads the current scores from a file
+def loadScore():
+    with open("C:\Users\kp56156\Documents\SnakeGame\source-code\highScores.txt",'r') as scores:
+        try:
+            highscore = int(scores.read())
+        except:
+            highscore = 0
+    return highscore
+
+# Saves the current score to a file
+def saveScore():
+    with open("C:\Users\kp56156\Documents\SnakeGame\source-code\highScores.txt",'w') as scores:
+        scores.write(str(int(score)) + "\n")
 
 #region Variables
 # Player Surface
@@ -59,6 +74,7 @@ changeto = direction
 
 # Initial Score
 score = 0
+highscore = loadScore()
 
 # Turns pause screen on/off
 paused = False
@@ -144,9 +160,9 @@ def gameIntro():
         screenInfo(playSurface, pygame, 'Welcome to Snake!', black)
 
         # Play button
-        button('Wrap Off', width/4, height/2, 100, 50, green, brightGreen, "Wrap")
+        button('Play: Wrap Off', width/4, height/2, 200, 50, green, brightGreen, "Wrap")
         # Wrap On button
-        button('Wrap On', width/4, height/2 + 100, 100, 50, green, brightGreen, "Play")
+        button('Play: Wrap On', width/4, height/2 + 100, 200, 50, green, brightGreen, "Play")
         # Quit button
         button('Quit', width*2/3, height/2, 100, 50, red, brightRed, "Quit")
         # Scores Button
@@ -189,7 +205,7 @@ def pauseScreen():
         screenInfo(playSurface, pygame, 'Paused', black)
 
         # Resume button
-        button('Resume', width/4, height/2, 100, 50, green, brightGreen, "Resume")
+        button('Resume', width/4, height/2, 200, 50, green, brightGreen, "Resume")
         # Quit button
         button('Quit', width*2/3, height/2, 100, 50, red, brightRed, "Quit")
 
@@ -203,14 +219,16 @@ def scoresScreen():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 quit()
-        screenInfo(playSurface, pygame, 'High Scores', black)
+        screenInfo(playSurface, pygame, 'High Score', black)
 
         # Home Button
-        button('Home', 50, 30, 80, 20, green, brightGreen, "Home")
+        button('Home', width - 150, height - 80, 100, 50, green, brightGreen, "Home")
 
-        #file_object = open("C:\Users\kp56156\Documents\SnakeGame\source-code\highScores.txt",'r')
-        #scores = file_object.read()
-        #print(scores)
+        myFont = pygame.font.SysFont('monaco', width/10)
+        gameOverSurface = myFont.render(str(highscore), True, black) # Three args: ('text', anti-aliasing, color)
+        gameOverRect = gameOverSurface.get_rect() # Give a position to gameOverSurface
+        gameOverRect.midtop = (width/2, height/2)
+        playSurface.blit(gameOverSurface, gameOverRect)
 
         pygame.display.update()
         fpsController.tick(15)
@@ -227,15 +245,13 @@ def gameOver():
         screenInfo(playSurface, pygame, 'Game Over!', red)
 
         # Play button
-        button('Try Again (Wrap Off)', width/4, height/2, 200, 50, green, brightGreen, "Wrap")
-        # Wrap On button
-        button('Try Again (Wrap On)', width/4, height/2 + 100, 200, 50, green, brightGreen, "Play")
+        button('Home', width/4, height/2, 200, 50, green, brightGreen, "Home")
         # Quit button
         button('Quit', width*2/3, height/2, 100, 50, red, brightRed, "Quit")
 
         showScore(0)
         # Saves the score once
-        if not gameSaved:
+        if not gameSaved and score > highscore:
             saveScore()
             gameSaved = True
 
@@ -359,12 +375,6 @@ def wrapOn(snakePosition):
         snakePosition[1] = 30
     elif snakePosition[1] < 40:
         snakePosition[1] = height - 10
-
-# Saves the current score to a file
-def saveScore():
-    file_object = open("C:\Users\kp56156\Documents\SnakeGame\source-code\highScores.txt",'a')
-    file_object.write(str(int(score)) + "\n")
-    file_object.close()  
 
 # Run the game
 gameIntro()
