@@ -119,6 +119,8 @@ def buttonActionHandler(action):
     elif action == "Resume":
         paused = False
         playGame()
+    elif action == "Scores":
+        scoresScreen()
     elif action == "Quit":
         pygame.quit()
         quit()
@@ -147,6 +149,8 @@ def gameIntro():
         button('Wrap On', width/4, height/2 + 100, 100, 50, green, brightGreen, "Play")
         # Quit button
         button('Quit', width*2/3, height/2, 100, 50, red, brightRed, "Quit")
+        # Scores Button
+        button('Scores', width*2/3, height/2 + 100, 100, 50, red, brightRed, "Scores")
 
         pygame.display.update()
         fpsController.tick(15)
@@ -188,6 +192,25 @@ def pauseScreen():
         button('Resume', width/4, height/2, 100, 50, green, brightGreen, "Resume")
         # Quit button
         button('Quit', width*2/3, height/2, 100, 50, red, brightRed, "Quit")
+
+        pygame.display.update()
+        fpsController.tick(15)
+
+# Screen to display high scores
+def scoresScreen():
+    while True:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                quit()
+        screenInfo(playSurface, pygame, 'High Scores', black)
+
+        # Home Button
+        button('Home', 50, 30, 80, 20, green, brightGreen, "Home")
+
+        #file_object = open("C:\Users\kp56156\Documents\SnakeGame\source-code\highScores.txt",'r')
+        #scores = file_object.read()
+        #print(scores)
 
         pygame.display.update()
         fpsController.tick(15)
@@ -341,12 +364,7 @@ def wrapOn(snakePosition):
 def saveScore():
     file_object = open("C:\Users\kp56156\Documents\SnakeGame\source-code\highScores.txt",'a')
     file_object.write(str(int(score)) + "\n")
-    file_object.close()
-
-    # Used for debugging
-    #file_object = open("C:\Users\kp56156\Documents\SnakeGame\source-code\highScores.txt",'r')
-    #print(file_object.read())
-
+    file_object.close()  
 
 # Run the game
 gameIntro()
